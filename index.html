@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اكتشف ساعتك المثالية | استشاري الأناقة الشخصي</title>
+    <meta name="description" content="استشاري ذكي يساعدك في اختيار الساعة النسائية الفاخرة المثالية من خلال تحليل تفضيلاتك الشخصية">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            font-family: 'Noto Kufi Arabic', sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #F8F7F4 0%, #E8E6E0 100%);
+            min-height: 100vh;
+        }
+        
+        .accent-gold {
+            color: #C9A961;
+        }
+        
+        .bg-accent-gold {
+            background-color: #C9A961;
+        }
+        
+        .border-accent-gold {
+            border-color: #C9A961;
+        }
+        
+        .hover-scale {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .hover-scale:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 30px rgba(201, 169, 97, 0.3);
+        }
+        
+        .watch-card {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .watch-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(201, 169, 97, 0.1) 0%, transparent 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .watch-card:hover::before {
+            opacity: 1;
+        }
+        
+        .watch-card.selected {
+            border: 3px solid #C9A961;
+            box-shadow: 0 0 20px rgba(201, 169, 97, 0.5);
+        }
+        
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #E8E6E0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #C9A961 0%, #D4B76A 100%);
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+    <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="text-center mb-8 fade-in">
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">✨ اكتشف ساعتك المثالية</h1>
+            <p class="text-gray-600 text-lg">استشاري الأناقة الشخصي يساعدك في اختيار الساعة التي تعكس شخصيتك</p>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progressContainer" class="mb-8 hidden">
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+            </div>
+            <p class="text-center text-sm text-gray-600 mt-2" id="progressText">المرحلة 1 من 3</p>
+        </div>
+
+        <!-- Main Container -->
+        <div id="appContainer" class="bg-white rounded-2xl shadow-xl p-6 md:p-10 fade-in">
+            <!-- Welcome Screen -->
+            <div id="welcomeScreen">
+                <div class="text-center">
+                    <div class="text-6xl mb-6">⌚</div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">مرحباً بك في رحلة اكتشاف ساعتك المثالية</h2>
+                    <p class="text-gray-600 mb-8 leading-relaxed">
+                        سنساعدك في اختيار الساعة التي تناسب أسلوبك وشخصيتك من خلال ثلاث مراحل بسيطة:
+                    </p>
+                    <div class="grid md:grid-cols-3 gap-6 mb-8">
+                        <div class="p-4 bg-gray-50 rounded-xl">
+                            <div class="text-3xl mb-2">1️⃣</div>
+                            <h3 class="font-semibold mb-2">أسئلة سريعة</h3>
+                            <p class="text-sm text-gray-600">3 أسئلة لفهم تفضيلاتك</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-xl">
+                            <div class="text-3xl mb-2">2️⃣</div>
+                            <h3 class="font-semibold mb-2">مقارنة بصرية</h3>
+                            <p class="text-sm text-gray-600">اختر من بين تصاميم متنوعة</p>
+                        </div>
+                        <div class="p-4 bg-gray-50 rounded-xl">
+                            <div class="text-3xl mb-2">3️⃣</div>
+                            <h3 class="font-semibold mb-2">النتيجة المخصصة</h3>
+                            <p class="text-sm text-gray-600">ساعتك المثالية مع التفسير</p>
+                        </div>
+                    </div>
+                    <button onclick="startQuiz()" class="bg-accent-gold text-white px-8 py-4 rounded-full text-lg font-semibold hover-scale">
+                        ابدأ الآن ✨
+                    </button>
+                </div>
+            </div>
+
+            <!-- Questions Screen -->
+            <div id="questionsScreen" class="hidden">
+                <div id="questionContainer"></div>
+            </div>
+
+            <!-- Comparison Screen -->
+            <div id="comparisonScreen" class="hidden">
+                <h2 class="text-2xl font-semibold text-center mb-6 text-gray-800">اختر الساعة التي تفضلها</h2>
+                <p class="text-center text-gray-600 mb-8">جولة <span id="roundNumber">1</span> من 7</p>
+                <div class="grid md:grid-cols-2 gap-6" id="comparisonContainer"></div>
+            </div>
+
+            <!-- Result Screen -->
+            <div id="resultScreen" class="hidden">
+                <div class="text-center">
+                    <div class="text-5xl mb-4">🎉</div>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-6">ساعتك المثالية هي...</h2>
+                    <div id="resultContent"></div>
+                    <button onclick="restartQuiz()" class="mt-8 bg-gray-200 text-gray-800 px-6 py-3 rounded-full font-semibold hover-scale">
+                        ابدأ من جديد 🔄
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="text-center mt-8 text-gray-600 text-sm">
+            <p>مدعوم بتقنية الذكاء الاصطناعي لتحليل التفضيلات الشخصية</p>
+        </div>
+    </div>
+
+    <script>
+        // قاعدة بيانات الساعات
+        const watchesDatabase = [
+            {
+                id: 1,
+                name: "Rolex Lady-Datejust",
+                brand: "Rolex",
+                image: "https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=800",
+                price: "28,500 ريال",
+                attributes: {
+                    material: "ذهبي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "كلاسيكي",
+                    size: "متوسط"
+                },
+                description: "تصميم فاخر يجمع بين الذهب والستانلس ستيل مع ألماس راقٍ"
+            },
+            {
+                id: 2,
+                name: "Cartier Tank Must",
+                brand: "Cartier",
+                image: "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?w=800",
+                price: "21,000 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "جلد",
+                    style: "كلاسيكي",
+                    size: "صغير"
+                },
+                description: "أناقة باريسية خالدة بتصميم بسيط وراقٍ"
+            },
+            {
+                id: 3,
+                name: "Omega Seamaster Aqua Terra",
+                brand: "Omega",
+                image: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=800",
+                price: "27,750 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "متوسط"
+                },
+                description: "ساعة رياضية أنيقة مع ألماس فاخر"
+            },
+            {
+                id: 4,
+                name: "Chopard Happy Sport",
+                brand: "Chopard",
+                image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800",
+                price: "22,050 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "متوسط"
+                },
+                description: "ساعة مبتكرة مع ألماسات متحركة تضيف لمسة من المرح"
+            },
+            {
+                id: 5,
+                name: "Bulgari Serpenti",
+                brand: "Bulgari",
+                image: "https://images.unsplash.com/photo-1509941943102-10c232535736?w=800",
+                price: "26,000 ريال",
+                attributes: {
+                    material: "ذهبي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "صغير"
+                },
+                description: "تصميم إيطالي جريء مستوحى من الثعبان الأسطوري"
+            },
+            {
+                id: 6,
+                name: "TAG Heuer Carrera",
+                brand: "TAG Heuer",
+                image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=800",
+                price: "20,100 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "بني",
+                    strap: "معدني",
+                    style: "رياضي",
+                    size: "متوسط"
+                },
+                description: "ساعة رياضية أنيقة تجمع بين الأداء والأناقة"
+            },
+            {
+                id: 7,
+                name: "Rolex Oyster Perpetual",
+                brand: "Rolex",
+                image: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=800",
+                price: "24,000 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "وردي",
+                    strap: "معدني",
+                    style: "كلاسيكي",
+                    size: "صغير"
+                },
+                description: "ساعة أيقونية من رولكس تجمع بين الأناقة الخالدة والدقة السويسرية"
+            },
+            {
+                id: 8,
+                name: "Cartier Tank Française",
+                brand: "Cartier",
+                image: "https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=800",
+                price: "25,000 ريال",
+                attributes: {
+                    material: "ذهبي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "كلاسيكي",
+                    size: "متوسط"
+                },
+                description: "تحفة فنية من كارتييه بتصميم مستطيل أيقوني"
+            },
+            {
+                id: 9,
+                name: "Omega Seamaster Diamonds",
+                brand: "Omega",
+                image: "https://images.unsplash.com/photo-1611858518453-a8c6e1e4f8d0?w=800",
+                price: "29,500 ريال",
+                attributes: {
+                    material: "ذهبي وردي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "متوسط"
+                },
+                description: "تصميم عصري مع لمسات من الذهب الوردي والألماس"
+            },
+            {
+                id: 10,
+                name: "Bulgari Serpenti Tubogas",
+                brand: "Bulgari",
+                image: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=800",
+                price: "28,000 ريال",
+                attributes: {
+                    material: "ذهبي وردي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "صغير"
+                },
+                description: "قطعة فنية فاخرة بتصميم حزام لولبي فريد"
+            },
+            {
+                id: 11,
+                name: "TAG Heuer Aquaracer",
+                brand: "TAG Heuer",
+                image: "https://images.unsplash.com/photo-1606390041606-c5d5a7d51a0f?w=800",
+                price: "22,500 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أخضر",
+                    strap: "معدني",
+                    style: "رياضي",
+                    size: "كبير"
+                },
+                description: "ساعة غوص احترافية بتصميم عصري وميناء أخضر مميز"
+            },
+            {
+                id: 12,
+                name: "Chopard Happy Sport Steel",
+                brand: "Chopard",
+                image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800",
+                price: "24,450 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أزرق",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "كبير"
+                },
+                description: "تصميم جريء مع ألماسات متحركة وميناء أزرق جذاب"
+            }
+        ];
+
+        // الأسئلة التمهيدية
+        const questions = [
+            {
+                id: 1,
+                question: "ما الطابع الذي يناسب أسلوبك؟",
+                options: [
+                    { text: "كلاسيكي راقٍ", value: "كلاسيكي", icon: "👑" },
+                    { text: "عصري جريء", value: "عصري", icon: "✨" },
+                    { text: "رياضي عملي", value: "رياضي", icon: "⚡" }
+                ]
+            },
+            {
+                id: 2,
+                question: "أي الألوان يعكس شخصيتك؟",
+                options: [
+                    { text: "ذهبي دافئ", value: "ذهبي", icon: "🌟" },
+                    { text: "فضي بارد", value: "فضي", icon: "💎" },
+                    { text: "ذهبي وردي أنثوي", value: "ذهبي وردي", icon: "🌸" }
+                ]
+            },
+            {
+                id: 3,
+                question: "ما نوع الحزام المفضل؟",
+                options: [
+                    { text: "جلد أنيق", value: "جلد", icon: "🎀" },
+                    { text: "معدني فاخر", value: "معدني", icon: "⭐" },
+                    { text: "سيليكون مريح", value: "سيليكون", icon: "🏃‍♀️" }
+                ]
+            }
+        ];
+
+        // متغيرات التطبيق
+        let currentQuestion = 0;
+        let userAnswers = {};
+        let currentRound = 0;
+        let watchScores = {};
+        let comparisonPairs = [];
+
+        // تهيئة نقاط الساعات
+        watchesDatabase.forEach(watch => {
+            watchScores[watch.id] = 1000;
+        });
+
+        // بدء الاختبار
+        function startQuiz() {
+            document.getElementById('welcomeScreen').classList.add('hidden');
+            document.getElementById('questionsScreen').classList.remove('hidden');
+            document.getElementById('progressContainer').classList.remove('hidden');
+            updateProgress(1, 3);
+            showQuestion();
+        }
+
+        // عرض السؤال الحالي
+        function showQuestion() {
+            const question = questions[currentQuestion];
+            const container = document.getElementById('questionContainer');
+            
+            container.innerHTML = `
+                <div class="fade-in">
+                    <h2 class="text-2xl font-semibold text-center mb-8 text-gray-800">${question.question}</h2>
+                    <div class="grid gap-4">
+                        ${question.options.map(option => `
+                            <button onclick="selectAnswer(${question.id}, '${option.value}')" 
+                                    class="p-6 bg-gray-50 rounded-xl hover-scale text-right border-2 border-transparent hover:border-accent-gold transition-all">
+                                <span class="text-3xl ml-4">${option.icon}</span>
+                                <span class="text-lg font-medium">${option.text}</span>
+                            </button>
+                        `).join('')}
+                    </div>
+                </div>
+            `;
+        }
+
+        // اختيار إجابة
+        function selectAnswer(questionId, value) {
+            userAnswers[questionId] = value;
+            currentQuestion++;
+            
+            if (currentQuestion < questions.length) {
+                showQuestion();
+            } else {
+                startComparison();
+            }
+        }
+
+        // بدء مرحلة المقارنة
+        function startComparison() {
+            document.getElementById('questionsScreen').classList.add('hidden');
+            document.getElementById('comparisonScreen').classList.remove('hidden');
+            updateProgress(2, 3);
+            
+            let filteredWatches = filterWatchesByAnswers();
+            comparisonPairs = generateComparisonPairs(filteredWatches, 7);
+            currentRound = 0;
+            
+            showComparison();
+        }
+
+        // تصفية الساعات بناءً على الإجابات
+        function filterWatchesByAnswers() {
+            return watchesDatabase.filter(watch => {
+                let score = 0;
+                
+                if (watch.attributes.style === userAnswers[1]) score += 3;
+                if (watch.attributes.material === userAnswers[2]) score += 3;
+                if (watch.attributes.strap === userAnswers[3]) score += 2;
+                
+                return score >= 2;
+            });
+        }
+
+        // إنشاء أزواج المقارنة
+        function generateComparisonPairs(watches, count) {
+            const pairs = [];
+            const shuffled = [...watches].sort(() => Math.random() - 0.5);
+            
+            for (let i = 0; i < count && i * 2 + 1 < shuffled.length; i++) {
+                pairs.push([shuffled[i * 2], shuffled[i * 2 + 1]]);
+            }
+            
+            return pairs;
+        }
+
+        // عرض المقارنة الحالية
+        function showComparison() {
+            if (currentRound >= comparisonPairs.length) {
+                showResult();
+                return;
+            }
+            
+            const pair = comparisonPairs[currentRound];
+            const container = document.getElementById('comparisonContainer');
+            document.getElementById('roundNumber').textContent = currentRound + 1;
+            
+            container.innerHTML = pair.map(watch => `
+                <div onclick="selectWatch(${watch.id})" class="watch-card bg-white rounded-xl p-6 border-2 border-gray-200 hover-scale">
+                    <img src="${watch.image}" alt="${watch.name}" class="w-full h-64 object-cover mb-4 rounded-lg">
+                    <h3 class="font-semibold text-lg text-gray-800 mb-2">${watch.name}</h3>
+                    <p class="text-accent-gold font-semibold mb-2">${watch.price}</p>
+                    <p class="text-sm text-gray-600">${watch.brand}</p>
+                </div>
+            `).join('');
+        }
+
+        // اختيار ساعة في المقارنة
+        function selectWatch(watchId) {
+            const pair = comparisonPairs[currentRound];
+            const winner = pair.find(w => w.id === watchId);
+            const loser = pair.find(w => w.id !== watchId);
+            
+            updateEloScores(winner.id, loser.id);
+            
+            currentRound++;
+            showComparison();
+        }
+
+        // تحديث نقاط Elo
+        function updateEloScores(winnerId, loserId) {
+            const K = 32;
+            
+            const ratingWinner = watchScores[winnerId];
+            const ratingLoser = watchScores[loserId];
+            
+            const expectedWinner = 1 / (1 + Math.pow(10, (ratingLoser - ratingWinner) / 400));
+            const expectedLoser = 1 / (1 + Math.pow(10, (ratingWinner - ratingLoser) / 400));
+            
+            watchScores[winnerId] = ratingWinner + K * (1 - expectedWinner);
+            watchScores[loserId] = ratingLoser + K * (0 - expectedLoser);
+        }
+
+        // عرض النتيجة
+        function showResult() {
+            document.getElementById('comparisonScreen').classList.add('hidden');
+            document.getElementById('resultScreen').classList.remove('hidden');
+            updateProgress(3, 3);
+            
+            const topWatchId = Object.keys(watchScores).reduce((a, b) => 
+                watchScores[a] > watchScores[b] ? a : b
+            );
+            
+            const topWatch = watchesDatabase.find(w => w.id == topWatchId);
+            
+            const resultContent = document.getElementById('resultContent');
+            resultContent.innerHTML = `
+                <div class="fade-in">
+                    <img src="${topWatch.image}" alt="${topWatch.name}" class="w-full max-w-md mx-auto h-96 object-cover mb-6 rounded-xl">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-2">${topWatch.name}</h3>
+                    <p class="text-accent-gold text-xl font-semibold mb-4">${topWatch.price}</p>
+                    <p class="text-gray-600 mb-6">${topWatch.description}</p>
+                    
+                    <div class="bg-gray-50 rounded-xl p-6 text-right">
+                        <h4 class="font-semibold text-lg mb-4 accent-gold">✨ لماذا اخترنا لك هذه الساعة؟</h4>
+                        <p class="text-gray-700 leading-relaxed mb-4">
+                            بناءً على اختياراتك، وجدنا أن هذه الساعة تعكس تفضيلك لـ:
+                        </p>
+                        <ul class="space-y-2 text-gray-700">
+                            <li>• <strong>الطابع:</strong> ${topWatch.attributes.style}</li>
+                            <li>• <strong>اللون:</strong> ${topWatch.attributes.material}</li>
+                            <li>• <strong>نوع الحزام:</strong> ${topWatch.attributes.strap}</li>
+                        </ul>
+                        <p class="text-gray-700 leading-relaxed mt-4">
+                            كما أن اختياراتك البصرية في مرحلة المقارنة أكدت انجذابك لهذا التصميم الفريد.
+                        </p>
+                    </div>
+                </div>
+            `;
+        }
+
+        // تحديث شريط التقدم
+        function updateProgress(current, total) {
+            const percentage = (current / total) * 100;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = `المرحلة ${current} من ${total}`;
+        }
+
+        // إعادة بدء الاختبار
+        function restartQuiz() {
+            currentQuestion = 0;
+            userAnswers = {};
+            currentRound = 0;
+            watchScores = {};
+            comparisonPairs = [];
+            
+            watchesDatabase.forEach(watch => {
+                watchScores[watch.id] = 1000;
+            });
+            
+            document.getElementById('resultScreen').classList.add('hidden');
+            document.getElementById('welcomeScreen').classList.remove('hidden');
+            document.getElementById('progressContainer').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>
