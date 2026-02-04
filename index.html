@@ -172,28 +172,30 @@
     </div>
 
     <script>
-        // قاعدة بيانات الساعات
+        // قاعدة بيانات الساعات - مطابقة دقيقة من التقرير الأصلي
         const watchesDatabase = [
             {
                 id: 1,
-                name: "Rolex Lady-Datejust",
+                name: "Rolex Oyster Perpetual 28",
                 brand: "Rolex",
-                image: "https://images.unsplash.com/photo-1587836374828-4dbafa94cf0e?w=800",
-                price: "28,500 ريال",
+                model: "276200",
+                image: "images/KCFgpUJXssiL.jpg",
+                price: "24,003 ريال",
                 attributes: {
-                    material: "ذهبي",
-                    dialColor: "أبيض",
+                    material: "فضي",
+                    dialColor: "فضي",
                     strap: "معدني",
                     style: "كلاسيكي",
-                    size: "متوسط"
+                    size: "صغير"
                 },
-                description: "تصميم فاخر يجمع بين الذهب والستانلس ستيل مع ألماس راقٍ"
+                description: "ساعة أيقونية من رولكس تجمع بين الأناقة الخالدة والدقة السويسرية"
             },
             {
                 id: 2,
                 name: "Cartier Tank Must",
                 brand: "Cartier",
-                image: "https://images.unsplash.com/photo-1594534475808-b18fc33b045e?w=800",
+                model: "WSTA0041",
+                image: "images/fNvc5AXtqMFw.jpg",
                 price: "21,000 ريال",
                 attributes: {
                     material: "فضي",
@@ -206,153 +208,131 @@
             },
             {
                 id: 3,
-                name: "Omega Seamaster Aqua Terra",
-                brand: "Omega",
-                image: "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=800",
-                price: "27,750 ريال",
+                name: "Cartier Ballon Bleu",
+                brand: "Cartier",
+                model: "W69010Z4",
+                image: "images/To4lGljeDJYj.jpg",
+                price: "23,500 ريال",
                 attributes: {
                     material: "فضي",
                     dialColor: "أبيض",
                     strap: "معدني",
-                    style: "عصري",
-                    size: "متوسط"
+                    style: "كلاسيكي",
+                    size: "صغير"
                 },
-                description: "ساعة رياضية أنيقة مع ألماس فاخر"
+                description: "تصميم أنيق بشكل دائري مميز مع تاج أزرق أيقوني"
             },
             {
                 id: 4,
-                name: "Chopard Happy Sport",
-                brand: "Chopard",
-                image: "https://images.unsplash.com/photo-1524805444758-089113d48a6d?w=800",
-                price: "22,050 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "أبيض",
-                    strap: "معدني",
-                    style: "عصري",
-                    size: "متوسط"
-                },
-                description: "ساعة مبتكرة مع ألماسات متحركة تضيف لمسة من المرح"
-            },
-            {
-                id: 5,
-                name: "Bulgari Serpenti",
-                brand: "Bulgari",
-                image: "https://images.unsplash.com/photo-1509941943102-10c232535736?w=800",
-                price: "26,000 ريال",
-                attributes: {
-                    material: "ذهبي",
-                    dialColor: "أبيض",
-                    strap: "معدني",
-                    style: "عصري",
-                    size: "صغير"
-                },
-                description: "تصميم إيطالي جريء مستوحى من الثعبان الأسطوري"
-            },
-            {
-                id: 6,
-                name: "TAG Heuer Carrera",
-                brand: "TAG Heuer",
-                image: "https://images.unsplash.com/photo-1522312346375-d1a52e2b99b3?w=800",
-                price: "20,100 ريال",
+                name: "Omega Seamaster Aqua Terra",
+                brand: "Omega",
+                model: "220.10.34.20.09.001",
+                image: "images/vV4RmLgqLzMt.jpg",
+                price: "27,750 ريال",
                 attributes: {
                     material: "فضي",
                     dialColor: "بني",
                     strap: "معدني",
-                    style: "رياضي",
-                    size: "متوسط"
-                },
-                description: "ساعة رياضية أنيقة تجمع بين الأداء والأناقة"
-            },
-            {
-                id: 7,
-                name: "Rolex Oyster Perpetual",
-                brand: "Rolex",
-                image: "https://images.unsplash.com/photo-1614164185128-e4ec99c436d7?w=800",
-                price: "24,000 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "وردي",
-                    strap: "معدني",
-                    style: "كلاسيكي",
-                    size: "صغير"
-                },
-                description: "ساعة أيقونية من رولكس تجمع بين الأناقة الخالدة والدقة السويسرية"
-            },
-            {
-                id: 8,
-                name: "Cartier Tank Française",
-                brand: "Cartier",
-                image: "https://images.unsplash.com/photo-1533139502658-0198f920d8e8?w=800",
-                price: "25,000 ريال",
-                attributes: {
-                    material: "ذهبي",
-                    dialColor: "أبيض",
-                    strap: "معدني",
-                    style: "كلاسيكي",
-                    size: "متوسط"
-                },
-                description: "تحفة فنية من كارتييه بتصميم مستطيل أيقوني"
-            },
-            {
-                id: 9,
-                name: "Omega Seamaster Diamonds",
-                brand: "Omega",
-                image: "https://images.unsplash.com/photo-1611858518453-a8c6e1e4f8d0?w=800",
-                price: "29,500 ريال",
-                attributes: {
-                    material: "ذهبي وردي",
-                    dialColor: "أبيض",
-                    strap: "معدني",
                     style: "عصري",
                     size: "متوسط"
                 },
-                description: "تصميم عصري مع لمسات من الذهب الوردي والألماس"
+                description: "ساعة رياضية أنيقة مع ميناء بلون رملي مميز"
             },
             {
-                id: 10,
-                name: "Bulgari Serpenti Tubogas",
-                brand: "Bulgari",
-                image: "https://images.unsplash.com/photo-1547996160-81dfa63595aa?w=800",
-                price: "28,000 ريال",
-                attributes: {
-                    material: "ذهبي وردي",
-                    dialColor: "أبيض",
-                    strap: "معدني",
-                    style: "عصري",
-                    size: "صغير"
-                },
-                description: "قطعة فنية فاخرة بتصميم حزام لولبي فريد"
-            },
-            {
-                id: 11,
-                name: "TAG Heuer Aquaracer",
-                brand: "TAG Heuer",
-                image: "https://images.unsplash.com/photo-1606390041606-c5d5a7d51a0f?w=800",
-                price: "22,500 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "أخضر",
-                    strap: "معدني",
-                    style: "رياضي",
-                    size: "كبير"
-                },
-                description: "ساعة غوص احترافية بتصميم عصري وميناء أخضر مميز"
-            },
-            {
-                id: 12,
-                name: "Chopard Happy Sport Steel",
+                id: 5,
+                name: "Chopard Happy Sport",
                 brand: "Chopard",
-                image: "https://images.unsplash.com/photo-1524592094714-0f0654e20314?w=800",
-                price: "24,450 ريال",
+                model: "278590-3010",
+                image: "images/AM5M24Wo0Chy.png",
+                price: "22,050 ريال",
                 attributes: {
                     material: "فضي",
                     dialColor: "أزرق",
                     strap: "معدني",
                     style: "عصري",
-                    size: "كبير"
+                    size: "صغير"
                 },
-                description: "تصميم جريء مع ألماسات متحركة وميناء أزرق جذاب"
+                description: "ساعة مبتكرة مع ألماسات متحركة تضيف لمسة من المرح"
+            },
+            {
+                id: 6,
+                name: "Bulgari LVCEA",
+                brand: "Bulgari",
+                model: "103877",
+                image: "images/TGalZn3YhZy4.png",
+                price: "26,625 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "متوسط"
+                },
+                description: "تصميم إيطالي راقٍ مستوحى من الضوء الروماني"
+            },
+            {
+                id: 7,
+                name: "Longines DolceVita",
+                brand: "Longines",
+                model: "L5.512.4.71.6",
+                image: "images/44nyONS6r0sa.jpg",
+                price: "21,375 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "جلد",
+                    style: "كلاسيكي",
+                    size: "صغير"
+                },
+                description: "ساعة مستطيلة أنيقة تجمع بين التقاليد السويسرية والأناقة الإيطالية"
+            },
+            {
+                id: 8,
+                name: "Tudor Clair de Rose",
+                brand: "Tudor",
+                model: "M35800-0005",
+                image: "images/2xNwMFD6HW2U.png",
+                price: "21,000 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "فضي",
+                    strap: "معدني",
+                    style: "كلاسيكي",
+                    size: "متوسط"
+                },
+                description: "تصميم أنثوي راقٍ من العلامة الشقيقة لرولكس"
+            },
+            {
+                id: 9,
+                name: "TAG Heuer Carrera",
+                brand: "TAG Heuer",
+                model: "WBN2414.BA0621",
+                image: "images/N5uZYcr2OMGD.jpg",
+                price: "20,100 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "رياضي",
+                    size: "صغير"
+                },
+                description: "ساعة رياضية أنيقة تجمع بين الأداء والأناقة"
+            },
+            {
+                id: 10,
+                name: "Rolex Oyster Perpetual 31",
+                brand: "Rolex",
+                model: "277200",
+                image: "images/OPfucaHHOf64.jpg",
+                price: "24,563 ريال",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "وردي",
+                    strap: "معدني",
+                    style: "كلاسيكي",
+                    size: "متوسط"
+                },
+                description: "ساعة رولكس كلاسيكية بميناء وردي جذاب"
             }
         ];
 
@@ -381,8 +361,7 @@
                 question: "ما نوع الحزام المفضل؟",
                 options: [
                     { text: "جلد أنيق", value: "جلد", icon: "🎀" },
-                    { text: "معدني فاخر", value: "معدني", icon: "⭐" },
-                    { text: "سيليكون مريح", value: "سيليكون", icon: "🏃‍♀️" }
+                    { text: "معدني فاخر", value: "معدني", icon: "⭐" }
                 ]
             }
         ];
@@ -492,9 +471,8 @@
             
             container.innerHTML = pair.map(watch => `
                 <div onclick="selectWatch(${watch.id})" class="watch-card bg-white rounded-xl p-6 border-2 border-gray-200 hover-scale">
-                    <img src="${watch.image}" alt="${watch.name}" class="w-full h-64 object-cover mb-4 rounded-lg">
+                    <img src="${watch.image}" alt="${watch.name}" class="w-full h-64 object-contain mb-4 rounded-lg">
                     <h3 class="font-semibold text-lg text-gray-800 mb-2">${watch.name}</h3>
-                    <p class="text-accent-gold font-semibold mb-2">${watch.price}</p>
                     <p class="text-sm text-gray-600">${watch.brand}</p>
                 </div>
             `).join('');
@@ -541,7 +519,7 @@
             const resultContent = document.getElementById('resultContent');
             resultContent.innerHTML = `
                 <div class="fade-in">
-                    <img src="${topWatch.image}" alt="${topWatch.name}" class="w-full max-w-md mx-auto h-96 object-cover mb-6 rounded-xl">
+                    <img src="${topWatch.image}" alt="${topWatch.name}" class="w-full max-w-md mx-auto h-96 object-contain mb-6 rounded-xl">
                     <h3 class="text-2xl font-bold text-gray-800 mb-2">${topWatch.name}</h3>
                     <p class="text-accent-gold text-xl font-semibold mb-4">${topWatch.price}</p>
                     <p class="text-gray-600 mb-6">${topWatch.description}</p>
