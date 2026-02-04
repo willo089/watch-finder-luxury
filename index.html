@@ -89,6 +89,17 @@
             background: linear-gradient(90deg, #C9A961 0%, #D4B76A 100%);
             transition: width 0.3s ease;
         }
+
+        .tournament-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            background: linear-gradient(135deg, #C9A961 0%, #D4B76A 100%);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
     </style>
 </head>
 <body class="p-4 md:p-8">
@@ -125,12 +136,12 @@
                         </div>
                         <div class="p-4 bg-gray-50 rounded-xl">
                             <div class="text-3xl mb-2">2️⃣</div>
-                            <h3 class="font-semibold mb-2">مقارنة بصرية</h3>
-                            <p class="text-sm text-gray-600">اختر من بين تصاميم متنوعة</p>
+                            <h3 class="font-semibold mb-2">بطولة الإقصاء</h3>
+                            <p class="text-sm text-gray-600">اختر الساعة المفضلة في كل جولة</p>
                         </div>
                         <div class="p-4 bg-gray-50 rounded-xl">
                             <div class="text-3xl mb-2">3️⃣</div>
-                            <h3 class="font-semibold mb-2">النتيجة المخصصة</h3>
+                            <h3 class="font-semibold mb-2">الفائز النهائي</h3>
                             <p class="text-sm text-gray-600">ساعتك المثالية مع التفسير</p>
                         </div>
                     </div>
@@ -145,17 +156,20 @@
                 <div id="questionContainer"></div>
             </div>
 
-            <!-- Comparison Screen -->
-            <div id="comparisonScreen" class="hidden">
-                <h2 class="text-2xl font-semibold text-center mb-6 text-gray-800">اختر الساعة التي تفضلها</h2>
-                <p class="text-center text-gray-600 mb-8">جولة <span id="roundNumber">1</span> من 7</p>
-                <div class="grid md:grid-cols-2 gap-6" id="comparisonContainer"></div>
+            <!-- Tournament Screen -->
+            <div id="tournamentScreen" class="hidden">
+                <div class="text-center mb-6">
+                    <span class="tournament-badge" id="roundBadge">🏆 الجولة الأولى</span>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-2">اختر الساعة التي تفضلها</h2>
+                    <p class="text-gray-600">مباراة <span id="matchNumber">1</span> من <span id="totalMatches">5</span></p>
+                </div>
+                <div class="grid md:grid-cols-2 gap-6" id="tournamentContainer"></div>
             </div>
 
             <!-- Result Screen -->
             <div id="resultScreen" class="hidden">
                 <div class="text-center">
-                    <div class="text-5xl mb-4">🎉</div>
+                    <div class="text-5xl mb-4">🏆</div>
                     <h2 class="text-2xl font-semibold text-gray-800 mb-6">ساعتك المثالية هي...</h2>
                     <div id="resultContent"></div>
                     <button onclick="restartQuiz()" class="mt-8 bg-gray-200 text-gray-800 px-6 py-3 rounded-full font-semibold hover-scale">
@@ -172,7 +186,7 @@
     </div>
 
     <script>
-        // قاعدة بيانات الساعات - مطابقة دقيقة من التقرير الأصلي
+        // قاعدة بيانات الساعات - مطابقة دقيقة 100% من التقرير الأصلي
         const watchesDatabase = [
             {
                 id: 1,
@@ -180,7 +194,6 @@
                 brand: "Rolex",
                 model: "276200",
                 image: "images/KCFgpUJXssiL.jpg",
-                price: "24,003 ريال",
                 attributes: {
                     material: "فضي",
                     dialColor: "فضي",
@@ -188,143 +201,14 @@
                     style: "كلاسيكي",
                     size: "صغير"
                 },
-                description: "ساعة أيقونية من رولكس تجمع بين الأناقة الخالدة والدقة السويسرية"
+                description: "ساعة أيقونية من رولكس تجمع بين الأناقة الخالدة والدقة السويسرية. تتميز بتصميم كلاسيكي خالد وحركة أوتوماتيكية دقيقة."
             },
             {
                 id: 2,
-                name: "Cartier Tank Must",
-                brand: "Cartier",
-                model: "WSTA0041",
-                image: "images/fNvc5AXtqMFw.jpg",
-                price: "21,000 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "أبيض",
-                    strap: "جلد",
-                    style: "كلاسيكي",
-                    size: "صغير"
-                },
-                description: "أناقة باريسية خالدة بتصميم بسيط وراقٍ"
-            },
-            {
-                id: 3,
-                name: "Cartier Ballon Bleu",
-                brand: "Cartier",
-                model: "W69010Z4",
-                image: "images/To4lGljeDJYj.jpg",
-                price: "23,500 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "أبيض",
-                    strap: "معدني",
-                    style: "كلاسيكي",
-                    size: "صغير"
-                },
-                description: "تصميم أنيق بشكل دائري مميز مع تاج أزرق أيقوني"
-            },
-            {
-                id: 4,
-                name: "Omega Seamaster Aqua Terra",
-                brand: "Omega",
-                model: "220.10.34.20.09.001",
-                image: "images/vV4RmLgqLzMt.jpg",
-                price: "27,750 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "بني",
-                    strap: "معدني",
-                    style: "عصري",
-                    size: "متوسط"
-                },
-                description: "ساعة رياضية أنيقة مع ميناء بلون رملي مميز"
-            },
-            {
-                id: 5,
-                name: "Chopard Happy Sport",
-                brand: "Chopard",
-                model: "278590-3010",
-                image: "images/AM5M24Wo0Chy.png",
-                price: "22,050 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "أزرق",
-                    strap: "معدني",
-                    style: "عصري",
-                    size: "صغير"
-                },
-                description: "ساعة مبتكرة مع ألماسات متحركة تضيف لمسة من المرح"
-            },
-            {
-                id: 6,
-                name: "Bulgari LVCEA",
-                brand: "Bulgari",
-                model: "103877",
-                image: "images/TGalZn3YhZy4.png",
-                price: "26,625 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "أبيض",
-                    strap: "معدني",
-                    style: "عصري",
-                    size: "متوسط"
-                },
-                description: "تصميم إيطالي راقٍ مستوحى من الضوء الروماني"
-            },
-            {
-                id: 7,
-                name: "Longines DolceVita",
-                brand: "Longines",
-                model: "L5.512.4.71.6",
-                image: "images/44nyONS6r0sa.jpg",
-                price: "21,375 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "أبيض",
-                    strap: "جلد",
-                    style: "كلاسيكي",
-                    size: "صغير"
-                },
-                description: "ساعة مستطيلة أنيقة تجمع بين التقاليد السويسرية والأناقة الإيطالية"
-            },
-            {
-                id: 8,
-                name: "Tudor Clair de Rose",
-                brand: "Tudor",
-                model: "M35800-0005",
-                image: "images/2xNwMFD6HW2U.png",
-                price: "21,000 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "فضي",
-                    strap: "معدني",
-                    style: "كلاسيكي",
-                    size: "متوسط"
-                },
-                description: "تصميم أنثوي راقٍ من العلامة الشقيقة لرولكس"
-            },
-            {
-                id: 9,
-                name: "TAG Heuer Carrera",
-                brand: "TAG Heuer",
-                model: "WBN2414.BA0621",
-                image: "images/N5uZYcr2OMGD.jpg",
-                price: "20,100 ريال",
-                attributes: {
-                    material: "فضي",
-                    dialColor: "أبيض",
-                    strap: "معدني",
-                    style: "رياضي",
-                    size: "صغير"
-                },
-                description: "ساعة رياضية أنيقة تجمع بين الأداء والأناقة"
-            },
-            {
-                id: 10,
                 name: "Rolex Oyster Perpetual 31",
                 brand: "Rolex",
                 model: "277200",
                 image: "images/OPfucaHHOf64.jpg",
-                price: "24,563 ريال",
                 attributes: {
                     material: "فضي",
                     dialColor: "وردي",
@@ -332,7 +216,127 @@
                     style: "كلاسيكي",
                     size: "متوسط"
                 },
-                description: "ساعة رولكس كلاسيكية بميناء وردي جذاب"
+                description: "ساعة رولكس كلاسيكية بميناء وردي جذاب يضيف لمسة أنثوية راقية. مثالية للاستخدام اليومي والمناسبات الرسمية."
+            },
+            {
+                id: 3,
+                name: "Cartier Tank Must",
+                brand: "Cartier",
+                model: "WSTA0041",
+                image: "images/fNvc5AXtqMFw.jpg",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "جلد",
+                    style: "كلاسيكي",
+                    size: "صغير"
+                },
+                description: "أناقة باريسية خالدة بتصميم مستطيل أيقوني. ساعة Tank من كارتييه تعتبر رمزاً للأناقة الكلاسيكية منذ عقود."
+            },
+            {
+                id: 4,
+                name: "Cartier Ballon Bleu",
+                brand: "Cartier",
+                model: "W69010Z4",
+                image: "images/To4lGljeDJYj.jpg",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "كلاسيكي",
+                    size: "صغير"
+                },
+                description: "تصميم أنيق بشكل دائري مميز مع تاج أزرق أيقوني محمي بقوس معدني. تجمع بين الأنوثة والفخامة."
+            },
+            {
+                id: 5,
+                name: "Omega Seamaster Aqua Terra",
+                brand: "Omega",
+                model: "220.10.34.20.09.001",
+                image: "images/vV4RmLgqLzMt.jpg",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "بني",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "متوسط"
+                },
+                description: "ساعة رياضية أنيقة مع ميناء بلون رملي مميز. تجمع بين الأداء الرياضي والأناقة العصرية."
+            },
+            {
+                id: 6,
+                name: "Chopard Happy Sport",
+                brand: "Chopard",
+                model: "278590-3010",
+                image: "images/AM5M24Wo0Chy.png",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أزرق",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "صغير"
+                },
+                description: "ساعة مبتكرة مع ألماسات متحركة تضيف لمسة من المرح والفخامة. تصميم فريد يجمع بين الساعات والمجوهرات."
+            },
+            {
+                id: 7,
+                name: "Bulgari LVCEA",
+                brand: "Bulgari",
+                model: "103877",
+                image: "images/TGalZn3YhZy4.png",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "عصري",
+                    size: "متوسط"
+                },
+                description: "تصميم إيطالي راقٍ مستوحى من الضوء الروماني. تجمع بين الأناقة الإيطالية والدقة السويسرية."
+            },
+            {
+                id: 8,
+                name: "Longines DolceVita",
+                brand: "Longines",
+                model: "L5.512.4.71.6",
+                image: "images/44nyONS6r0sa.jpg",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "جلد",
+                    style: "كلاسيكي",
+                    size: "صغير"
+                },
+                description: "ساعة مستطيلة أنيقة تجمع بين التقاليد السويسرية والأناقة الإيطالية. تصميم Art Deco خالد."
+            },
+            {
+                id: 9,
+                name: "Tudor Clair de Rose",
+                brand: "Tudor",
+                model: "M35800-0005",
+                image: "images/2xNwMFD6HW2U.png",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "فضي",
+                    strap: "معدني",
+                    style: "كلاسيكي",
+                    size: "متوسط"
+                },
+                description: "تصميم أنثوي راقٍ من العلامة الشقيقة لرولكس. تجمع بين الجودة السويسرية والقيمة الممتازة."
+            },
+            {
+                id: 10,
+                name: "TAG Heuer Carrera",
+                brand: "TAG Heuer",
+                model: "WBN2414.BA0621",
+                image: "images/N5uZYcr2OMGD.jpg",
+                attributes: {
+                    material: "فضي",
+                    dialColor: "أبيض",
+                    strap: "معدني",
+                    style: "رياضي",
+                    size: "صغير"
+                },
+                description: "ساعة رياضية أنيقة تجمع بين الأداء والأناقة. مثالية للمرأة العصرية النشطة."
             }
         ];
 
@@ -369,14 +373,10 @@
         // متغيرات التطبيق
         let currentQuestion = 0;
         let userAnswers = {};
+        let tournamentBracket = [];
         let currentRound = 0;
-        let watchScores = {};
-        let comparisonPairs = [];
-
-        // تهيئة نقاط الساعات
-        watchesDatabase.forEach(watch => {
-            watchScores[watch.id] = 1000;
-        });
+        let currentMatch = 0;
+        let winners = [];
 
         // بدء الاختبار
         function startQuiz() {
@@ -416,21 +416,34 @@
             if (currentQuestion < questions.length) {
                 showQuestion();
             } else {
-                startComparison();
+                startTournament();
             }
         }
 
-        // بدء مرحلة المقارنة
-        function startComparison() {
+        // بدء البطولة
+        function startTournament() {
             document.getElementById('questionsScreen').classList.add('hidden');
-            document.getElementById('comparisonScreen').classList.remove('hidden');
+            document.getElementById('tournamentScreen').classList.remove('hidden');
             updateProgress(2, 3);
             
+            // تصفية الساعات بناءً على الإجابات
             let filteredWatches = filterWatchesByAnswers();
-            comparisonPairs = generateComparisonPairs(filteredWatches, 7);
-            currentRound = 0;
             
-            showComparison();
+            // إذا كانت الساعات أقل من 10، نضيف الباقي
+            if (filteredWatches.length < 10) {
+                const remainingWatches = watchesDatabase.filter(w => 
+                    !filteredWatches.find(fw => fw.id === w.id)
+                );
+                filteredWatches = [...filteredWatches, ...remainingWatches].slice(0, 10);
+            }
+            
+            // خلط الساعات عشوائياً
+            tournamentBracket = shuffleArray(filteredWatches);
+            currentRound = 1;
+            currentMatch = 0;
+            winners = [];
+            
+            showTournamentMatch();
         }
 
         // تصفية الساعات بناءً على الإجابات
@@ -443,99 +456,117 @@
                 if (watch.attributes.strap === userAnswers[3]) score += 2;
                 
                 return score >= 2;
+            }).sort((a, b) => {
+                let scoreA = 0, scoreB = 0;
+                
+                if (a.attributes.style === userAnswers[1]) scoreA += 3;
+                if (a.attributes.material === userAnswers[2]) scoreA += 3;
+                if (a.attributes.strap === userAnswers[3]) scoreA += 2;
+                
+                if (b.attributes.style === userAnswers[1]) scoreB += 3;
+                if (b.attributes.material === userAnswers[2]) scoreB += 3;
+                if (b.attributes.strap === userAnswers[3]) scoreB += 2;
+                
+                return scoreB - scoreA;
             });
         }
 
-        // إنشاء أزواج المقارنة
-        function generateComparisonPairs(watches, count) {
-            const pairs = [];
-            const shuffled = [...watches].sort(() => Math.random() - 0.5);
-            
-            for (let i = 0; i < count && i * 2 + 1 < shuffled.length; i++) {
-                pairs.push([shuffled[i * 2], shuffled[i * 2 + 1]]);
+        // خلط المصفوفة عشوائياً
+        function shuffleArray(array) {
+            const shuffled = [...array];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
             }
-            
-            return pairs;
+            return shuffled;
         }
 
-        // عرض المقارنة الحالية
-        function showComparison() {
-            if (currentRound >= comparisonPairs.length) {
-                showResult();
-                return;
+        // عرض مباراة البطولة
+        function showTournamentMatch() {
+            // تحديد عدد المباريات في الجولة الحالية
+            const matchesInRound = Math.floor(tournamentBracket.length / 2);
+            
+            // إذا انتهت جميع المباريات في الجولة
+            if (currentMatch >= matchesInRound) {
+                // إذا كان عدد الفائزين فردي، نضيف الساعة الأخيرة تلقائياً
+                if (tournamentBracket.length % 2 === 1) {
+                    winners.push(tournamentBracket[tournamentBracket.length - 1]);
+                }
+                
+                // الانتقال للجولة التالية
+                tournamentBracket = winners;
+                winners = [];
+                currentMatch = 0;
+                currentRound++;
+                
+                // إذا بقيت ساعة واحدة فقط، نعرض النتيجة
+                if (tournamentBracket.length === 1) {
+                    showResult();
+                    return;
+                }
             }
             
-            const pair = comparisonPairs[currentRound];
-            const container = document.getElementById('comparisonContainer');
-            document.getElementById('roundNumber').textContent = currentRound + 1;
+            // عرض المباراة الحالية
+            const watch1 = tournamentBracket[currentMatch * 2];
+            const watch2 = tournamentBracket[currentMatch * 2 + 1];
             
-            container.innerHTML = pair.map(watch => `
-                <div onclick="selectWatch(${watch.id})" class="watch-card bg-white rounded-xl p-6 border-2 border-gray-200 hover-scale">
-                    <img src="${watch.image}" alt="${watch.name}" class="w-full h-64 object-contain mb-4 rounded-lg">
-                    <h3 class="font-semibold text-lg text-gray-800 mb-2">${watch.name}</h3>
-                    <p class="text-sm text-gray-600">${watch.brand}</p>
+            // تحديث معلومات الجولة
+            const roundNames = ['الجولة الأولى', 'الجولة الثانية', 'نصف النهائي', 'النهائي'];
+            document.getElementById('roundBadge').textContent = `🏆 ${roundNames[currentRound - 1] || 'الجولة ' + currentRound}`;
+            document.getElementById('matchNumber').textContent = currentMatch + 1;
+            document.getElementById('totalMatches').textContent = Math.floor(tournamentBracket.length / 2);
+            
+            const container = document.getElementById('tournamentContainer');
+            container.innerHTML = `
+                <div onclick="selectWinner(${watch1.id})" class="watch-card bg-white rounded-xl p-6 border-2 border-gray-200 hover-scale">
+                    <img src="${watch1.image}" alt="${watch1.name}" class="w-full h-64 object-contain mb-4 rounded-lg">
+                    <h3 class="font-semibold text-lg text-gray-800 mb-2">${watch1.name}</h3>
+                    <p class="text-sm text-gray-600">${watch1.brand}</p>
                 </div>
-            `).join('');
+                <div onclick="selectWinner(${watch2.id})" class="watch-card bg-white rounded-xl p-6 border-2 border-gray-200 hover-scale">
+                    <img src="${watch2.image}" alt="${watch2.name}" class="w-full h-64 object-contain mb-4 rounded-lg">
+                    <h3 class="font-semibold text-lg text-gray-800 mb-2">${watch2.name}</h3>
+                    <p class="text-sm text-gray-600">${watch2.brand}</p>
+                </div>
+            `;
         }
 
-        // اختيار ساعة في المقارنة
-        function selectWatch(watchId) {
-            const pair = comparisonPairs[currentRound];
-            const winner = pair.find(w => w.id === watchId);
-            const loser = pair.find(w => w.id !== watchId);
-            
-            updateEloScores(winner.id, loser.id);
-            
-            currentRound++;
-            showComparison();
+        // اختيار الفائز في المباراة
+        function selectWinner(watchId) {
+            const winner = tournamentBracket.find(w => w.id === watchId);
+            winners.push(winner);
+            currentMatch++;
+            showTournamentMatch();
         }
 
-        // تحديث نقاط Elo
-        function updateEloScores(winnerId, loserId) {
-            const K = 32;
-            
-            const ratingWinner = watchScores[winnerId];
-            const ratingLoser = watchScores[loserId];
-            
-            const expectedWinner = 1 / (1 + Math.pow(10, (ratingLoser - ratingWinner) / 400));
-            const expectedLoser = 1 / (1 + Math.pow(10, (ratingWinner - ratingLoser) / 400));
-            
-            watchScores[winnerId] = ratingWinner + K * (1 - expectedWinner);
-            watchScores[loserId] = ratingLoser + K * (0 - expectedLoser);
-        }
-
-        // عرض النتيجة
+        // عرض النتيجة النهائية
         function showResult() {
-            document.getElementById('comparisonScreen').classList.add('hidden');
+            document.getElementById('tournamentScreen').classList.add('hidden');
             document.getElementById('resultScreen').classList.remove('hidden');
             updateProgress(3, 3);
             
-            const topWatchId = Object.keys(watchScores).reduce((a, b) => 
-                watchScores[a] > watchScores[b] ? a : b
-            );
-            
-            const topWatch = watchesDatabase.find(w => w.id == topWatchId);
+            const winner = tournamentBracket[0];
             
             const resultContent = document.getElementById('resultContent');
             resultContent.innerHTML = `
                 <div class="fade-in">
-                    <img src="${topWatch.image}" alt="${topWatch.name}" class="w-full max-w-md mx-auto h-96 object-contain mb-6 rounded-xl">
-                    <h3 class="text-2xl font-bold text-gray-800 mb-2">${topWatch.name}</h3>
-                    <p class="text-accent-gold text-xl font-semibold mb-4">${topWatch.price}</p>
-                    <p class="text-gray-600 mb-6">${topWatch.description}</p>
+                    <img src="${winner.image}" alt="${winner.name}" class="w-full max-w-md mx-auto h-96 object-contain mb-6 rounded-xl">
+                    <h3 class="text-2xl font-bold text-gray-800 mb-4">${winner.name}</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed">${winner.description}</p>
                     
                     <div class="bg-gray-50 rounded-xl p-6 text-right">
                         <h4 class="font-semibold text-lg mb-4 accent-gold">✨ لماذا اخترنا لك هذه الساعة؟</h4>
                         <p class="text-gray-700 leading-relaxed mb-4">
-                            بناءً على اختياراتك، وجدنا أن هذه الساعة تعكس تفضيلك لـ:
+                            بعد رحلة البطولة الإقصائية، اخترت هذه الساعة من بين 10 ساعات فاخرة. اختيارك يعكس تفضيلك لـ:
                         </p>
-                        <ul class="space-y-2 text-gray-700">
-                            <li>• <strong>الطابع:</strong> ${topWatch.attributes.style}</li>
-                            <li>• <strong>اللون:</strong> ${topWatch.attributes.material}</li>
-                            <li>• <strong>نوع الحزام:</strong> ${topWatch.attributes.strap}</li>
+                        <ul class="space-y-2 text-gray-700 mb-4">
+                            <li>• <strong>الطابع:</strong> ${winner.attributes.style}</li>
+                            <li>• <strong>اللون:</strong> ${winner.attributes.material}</li>
+                            <li>• <strong>نوع الحزام:</strong> ${winner.attributes.strap}</li>
+                            <li>• <strong>لون الميناء:</strong> ${winner.attributes.dialColor}</li>
                         </ul>
-                        <p class="text-gray-700 leading-relaxed mt-4">
-                            كما أن اختياراتك البصرية في مرحلة المقارنة أكدت انجذابك لهذا التصميم الفريد.
+                        <p class="text-gray-700 leading-relaxed">
+                            هذه الساعة من <strong>${winner.brand}</strong> تجمع بين الأناقة والجودة، وهي الخيار المثالي لك بناءً على تفضيلاتك الشخصية.
                         </p>
                     </div>
                 </div>
@@ -553,13 +584,10 @@
         function restartQuiz() {
             currentQuestion = 0;
             userAnswers = {};
+            tournamentBracket = [];
             currentRound = 0;
-            watchScores = {};
-            comparisonPairs = [];
-            
-            watchesDatabase.forEach(watch => {
-                watchScores[watch.id] = 1000;
-            });
+            currentMatch = 0;
+            winners = [];
             
             document.getElementById('resultScreen').classList.add('hidden');
             document.getElementById('welcomeScreen').classList.remove('hidden');
