@@ -613,8 +613,24 @@
                 };
                 
                 // إرسال البيانات إلى Google Apps Script
-                // ملاحظة: سيتم تفعيل هذا في المرحلة التالية
-                console.log('Result data to be saved:', resultData);
+                const SCRIPT_URL = 'https://script.google.com/a/macros/nitcotek.com/s/AKfycbxipptflxASm8dZjNiKs8st7mHj6ob08joz7TbhfuEz9n987pHcxNeib4jkfXXN3geYMg/exec';
+                
+                try {
+                    await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(resultData)
+                    });
+                    console.log('✅ Data sent successfully to Google Sheets');
+                } catch (fetchError) {
+                    console.error('❌ Error sending data to Google Sheets:', fetchError);
+                }
+                
+                // عرض البيانات في Console للتحقق
+                console.log('Result data:', resultData);
                 
             } catch (error) {
                 console.error('Error saving result:', error);
