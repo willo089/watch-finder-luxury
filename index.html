@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>اكتشف ساعتك المثالية | استشاري الأناقة الشخصي</title>
+    <title>اكتشف شخصيتك من ساعتك</title>
     <meta name="description" content="استشاري ذكي يساعدك في اختيار الساعة النسائية الفاخرة المثالية من خلال تحليل تفضيلاتك الشخصية">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -106,8 +106,7 @@
     <div class="max-w-4xl mx-auto">
         <!-- Header -->
         <div class="text-center mb-8 fade-in">
-            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">✨ اكتشف ساعتك المثالية</h1>
-            <p class="text-gray-600 text-lg">استشاري الأناقة الشخصي يساعدك في اختيار الساعة التي تعكس شخصيتك</p>
+            <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">اكتشف شخصيتك من ساعتك</h1>
         </div>
 
         <!-- Progress Bar -->
@@ -124,10 +123,7 @@
             <div id="welcomeScreen">
                 <div class="text-center">
                     <div class="text-6xl mb-6">⌚</div>
-                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">مرحباً بك في رحلة اكتشاف ساعتك المثالية</h2>
-                    <p class="text-gray-600 mb-8 leading-relaxed">
-                        سنساعدك في اختيار الساعة التي تناسب أسلوبك وشخصيتك من خلال ثلاث مراحل بسيطة:
-                    </p>
+                    <h2 class="text-2xl font-semibold text-gray-800 mb-4">مرحباً بك في رحلة اكتشاف شخصيتك من ساعتك المثالية</h2>
                     <div class="grid md:grid-cols-3 gap-6 mb-8">
                         <div class="p-4 bg-gray-50 rounded-xl">
                             <div class="text-3xl mb-2">1️⃣</div>
@@ -181,7 +177,7 @@
 
         <!-- Footer -->
         <div class="text-center mt-8 text-gray-600 text-sm">
-            <p>مدعوم بتقنية الذكاء الاصطناعي لتحليل التفضيلات الشخصية</p>
+            <p>حقوق الطبع محفوظة 2026</p>
         </div>
     </div>
 
@@ -539,6 +535,92 @@
             showTournamentMatch();
         }
 
+        // حفظ البيانات إلى Google Sheets
+        async function saveResultToGoogleSheets(winner) {
+            try {
+                // جمع معلومات المتصفح والجهاز
+                const deviceInfo = {
+                    userAgent: navigator.userAgent,
+                    platform: navigator.platform,
+                    language: navigator.language,
+                    screenWidth: window.screen.width,
+                    screenHeight: window.screen.height
+                };
+                
+                // تحديد نوع الجهاز
+                let deviceType = 'Desktop';
+                if (/Mobile|Android|iPhone/i.test(deviceInfo.userAgent)) {
+                    deviceType = 'Mobile';
+                } else if (/iPad|Tablet/i.test(deviceInfo.userAgent)) {
+                    deviceType = 'Tablet';
+                }
+                
+                // تحديد نظام التشغيل
+                let os = 'Unknown';
+                if (/Windows/i.test(deviceInfo.userAgent)) os = 'Windows';
+                else if (/Mac/i.test(deviceInfo.userAgent)) os = 'macOS';
+                else if (/Linux/i.test(deviceInfo.userAgent)) os = 'Linux';
+                else if (/Android/i.test(deviceInfo.userAgent)) os = 'Android';
+                else if (/iOS|iPhone|iPad/i.test(deviceInfo.userAgent)) os = 'iOS';
+                
+                // تحديد المتصفح
+                let browser = 'Unknown';
+                if (/Chrome/i.test(deviceInfo.userAgent) && !/Edge/i.test(deviceInfo.userAgent)) browser = 'Chrome';
+                else if (/Safari/i.test(deviceInfo.userAgent) && !/Chrome/i.test(deviceInfo.userAgent)) browser = 'Safari';
+                else if (/Firefox/i.test(deviceInfo.userAgent)) browser = 'Firefox';
+                else if (/Edge/i.test(deviceInfo.userAgent)) browser = 'Edge';
+                
+                // جلب الموقع الجغرافي (تقريبي)
+                let location = { city: 'غير متاح', country: 'غير متاح', ip: 'غير متاح' };
+                try {
+                    const geoResponse = await fetch('https://ipapi.co/json/');
+                    if (geoResponse.ok) {
+                        const geoData = await geoResponse.json();
+                        location = {
+                            city: geoData.city || 'غير متاح',
+                            country: geoData.country_name || 'غير متاح',
+                            ip: geoData.ip || 'غير متاح'
+                        };
+                    }
+                } catch (e) {
+                    console.log('Could not fetch location');
+                }
+                
+                // إعداد البيانات للحفظ
+                const timestamp = new Date().toLocaleString('ar-SA', { 
+                    timeZone: 'Asia/Riyadh',
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit'
+                });
+                
+                const resultData = {
+                    timestamp: timestamp,
+                    watchName: winner.name,
+                    brand: winner.brand,
+                    question1: userAnswers[1] || 'غير متاح',
+                    question2: userAnswers[2] || 'غير متاح',
+                    question3: userAnswers[3] || 'غير متاح',
+                    deviceType: deviceType,
+                    os: os,
+                    browser: browser,
+                    city: location.city,
+                    country: location.country,
+                    ip: location.ip
+                };
+                
+                // إرسال البيانات إلى Google Apps Script
+                // ملاحظة: سيتم تفعيل هذا في المرحلة التالية
+                console.log('Result data to be saved:', resultData);
+                
+            } catch (error) {
+                console.error('Error saving result:', error);
+            }
+        }
+        
         // عرض النتيجة النهائية
         function showResult() {
             document.getElementById('tournamentScreen').classList.add('hidden');
@@ -546,6 +628,9 @@
             updateProgress(3, 3);
             
             const winner = tournamentBracket[0];
+            
+            // حفظ النتيجة
+            saveResultToGoogleSheets(winner);
             
             const resultContent = document.getElementById('resultContent');
             resultContent.innerHTML = `
